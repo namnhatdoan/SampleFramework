@@ -48,7 +48,6 @@ public class SampleDriverFactory {
 	public static WebDriver getDriver(DriverType type, DesiredCapabilities cap) {
 		SampleDriverFactory.setProperties();
 		
-		WebDriver driver = null;
 		Map<String, String> mobileEmulation = new HashMap<String, String>();
 		Map<String, Object> chromeOptions = new HashMap<String, Object>();
 		DesiredCapabilities capabilities = null;

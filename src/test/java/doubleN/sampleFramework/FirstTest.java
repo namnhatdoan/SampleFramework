@@ -9,16 +9,16 @@ import factory.DriverType;
 import factory.SampleDriverFactory;
 
 public class FirstTest {
-	WebDriver driver = null;
+	//WebDriver driver = null;
 	@Before public void setup() {
-		driver = SampleDriverFactory.getDriver(DriverType.CHROME);
+		SampleDriverFactory.getDriver(DriverType.CHROME);
 	}
 	
 	@After public void clean() {
-		driver.quit();
+		SampleDriverFactory.dispose();
 	}
 	
 	@Test public void firstTest() {
-		driver.get("http://www.google.com");
+		SampleDriverFactory.driver.get("http://www.google.com");
 	}
 }	

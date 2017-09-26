@@ -51,6 +51,7 @@ public class SampleDriverFactory {
 		Map<String, String> mobileEmulation = new HashMap<String, String>();
 		Map<String, Object> chromeOptions = new HashMap<String, Object>();
 		DesiredCapabilities capabilities = null;
+		
 		switch (type) {
 		case CHROME:
 			driver = new ChromeDriver(cap);

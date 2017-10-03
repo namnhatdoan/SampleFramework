@@ -1,90 +1,41 @@
 package factory;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class SampleDriverFactory {
 	public static WebDriver driver = null;
-	private static Path pathToChrome = Paths.get("webdriver","chromedriver.exe");
-	private static Path pathToFirefox = Paths.get("webdriver","geckodriver.exe");
 
 	public SampleDriverFactory() {
 		super();
 	}
 
-	public SampleDriverFactory(DriverType type) {
-		switch (type) {
-		case CHROME:
-			break;
-		case CHROME_IPAD:
-			break;
-		case CHROME_NEXUS5:
-			break;
-		case FIREFOX:
-			break;
-		
-		default:
-
-		}
-	}
-	
-	private static void setProperties() {
-		System.setProperty("webdriver.chrome.driver", pathToChrome.toString());
-		System.setProperty("webdriver.gecko.driver", pathToFirefox.toString());
-	}
-	
 	public static WebDriver getDriver(DriverType type) {
-		return getDriver(type, new DesiredCapabilities());
+		return getDriver(type, EmulatorType.NONE, new DesiredCapabilities());
 	}
-	
-	public static WebDriver getDriver(DriverType type, DesiredCapabilities cap) {
-		SampleDriverFactory.setProperties();
-		
-		Map<String, String> mobileEmulation = new HashMap<String, String>();
-		Map<String, Object> chromeOptions = new HashMap<String, Object>();
-		DesiredCapabilities capabilities = null;
-		
-		switch (type) {
+
+	public static WebDriver getDriver(DriverType driverType, EmulatorType emulatorType) {
+		return getDriver(driverType, emulatorType, new DesiredCapabilities());
+	}
+
+	public static WebDriver getDriver(DriverType driverType, EmulatorType eType, DesiredCapabilities cap) {
+		switch (driverType) {
 		case CHROME:
-			driver = new ChromeDriver(cap);
-			break;
-		case CHROME_IPAD:
-			// Set capabilities for IPAD
-			mobileEmulation.put("deviceName", "IPAD");
-			chromeOptions.put("mobileEmulation", mobileEmulation);
-			capabilities = DesiredCapabilities.chrome();
-			capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-			
-			driver = new ChromeDriver(capabilities.merge(cap));
-			break;
-		case CHROME_NEXUS5:
-			// Set capabilities for Nexus 5
-			mobileEmulation.put("deviceName", "Nexus 5");
-			chromeOptions.put("mobileEmulation", mobileEmulation);
-			capabilities = DesiredCapabilities.chrome();
-			capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-			
-			driver = new ChromeDriver(capabilities.merge(cap));
+			Chrome chrome = new Chrome();
+			chrome.setCapabilitiesForEmulator(eType);
+			driver = chrome.getDriver(cap);
 			break;
 		case FIREFOX:
-			driver = new FirefoxDriver(cap);
-			break;
-		
+			Firefox firefox = new Firefox();
+			driver = firefox.getDriver(cap);
+
 		default:
-			throw new IllegalArgumentException("DriverType " + type + " has not been supported.");
+			throw new IllegalArgumentException("DriverType " + driverType + " has not been supported.");
 		}
-		
+
 		return driver;
 	}
-	
+
 	public static void dispose() {
 		driver.quit();
 	}

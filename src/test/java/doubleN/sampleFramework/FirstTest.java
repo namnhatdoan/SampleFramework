@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import factory.DriverType;
-import factory.EmulatorType;
 import factory.SampleDriverFactory;
 
 public class FirstTest {
@@ -16,7 +15,7 @@ public class FirstTest {
 	ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 	
 	@Before public void setup() {
-		SampleDriverFactory.getDriver(DriverType.CHROME, EmulatorType.IPAD);
+		SampleDriverFactory.getDriver(DriverType.FIREFOX);
 		
 	}
 	

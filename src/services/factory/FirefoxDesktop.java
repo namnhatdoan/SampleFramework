@@ -7,12 +7,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class Firefox {
+public class FirefoxDesktop {
 	private static Path pathToFirefox = Paths.get("webdriver", "geckodriver.exe");
 	private DesiredCapabilities capabilities = null;
 
-	Firefox() {
-		setProperties();
+	FirefoxDesktop() {
+		this.setProperties();
+	}
+	
+	FirefoxDesktop(DesiredCapabilities cap){
+		this.setProperties();
+		this.capabilities = cap;
 	}
 
 	public void setProperties() {

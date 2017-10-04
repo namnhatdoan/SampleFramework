@@ -11,24 +11,27 @@ public class SampleDriverFactory {
 	}
 
 	public static WebDriver getDriver(DriverType type) {
-		return getDriver(type, EmulatorType.NONE, new DesiredCapabilities());
+		return getDriver(type,  new DesiredCapabilities());
 	}
 
-	public static WebDriver getDriver(DriverType driverType, EmulatorType emulatorType) {
-		return getDriver(driverType, emulatorType, new DesiredCapabilities());
-	}
-
-	public static WebDriver getDriver(DriverType driverType, EmulatorType eType, DesiredCapabilities cap) {
+	public static WebDriver getDriver(DriverType driverType, DesiredCapabilities cap) {
 		switch (driverType) {
 		case CHROME:
-			Chrome chrome = new Chrome();
-			chrome.setCapabilitiesForEmulator(eType);
+			ChromeDesktop chrome = new ChromeDesktop(cap);
 			driver = chrome.getDriver(cap);
 			break;
 		case FIREFOX:
-			Firefox firefox = new Firefox();
+			FirefoxDesktop firefox = new FirefoxDesktop(cap);
 			driver = firefox.getDriver(cap);
-
+			break;
+		case CHROME_IPAD:
+			ChromeIpad ipad = new ChromeIpad(cap);
+			driver = ipad.getDriver();
+			break;
+		case CHROME_NEXUS5:
+			ChromeNexus5 nexus5 = new ChromeNexus5(cap);
+			driver = nexus5.getDriver();
+			break;
 		default:
 			throw new IllegalArgumentException("DriverType " + driverType + " has not been supported.");
 		}
